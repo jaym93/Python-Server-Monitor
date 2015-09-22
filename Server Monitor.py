@@ -13,7 +13,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 # log files location, change location if necessary, make sure files exist before deployment
-logFile = open('C:\\sniff.log', 'a')
+logFile = open('C:\\sniff.log', 'a')        # remember to clean out log files once in a while, it may take up too much space
 errFile = open('C:\\error.log', 'a')
 
 ctx = ssl.create_default_context()
