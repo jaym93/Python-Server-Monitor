@@ -7,6 +7,7 @@ import subprocess
 import pymssql      # change SQL server module here, use pymysql for mysql, change it in the database check section also
 import re
 from time import gmtime, strftime
+import ssl
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -15,6 +16,10 @@ from email.mime.multipart import MIMEMultipart
 logFile = open('C:\\sniff.log', 'a')
 errFile = open('C:\\error.log', 'a')
 
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
+
 # server URLs here
 serverUrlFoo = 'https://server-one.example.com:port1/fooService'
 serverUrlBar = 'https://server-two.example.com:port2/barService'
@@ -22,8 +27,8 @@ serverUrlBar = 'https://server-two.example.com:port2/barService'
 
 try:
     # get HTTP response, 200 is OK
-    responseFoo = urllib.request.urlopen(serverUrlFoo).getcode()
-    responseBar = urllib.request.urlopen(serverUrlBar).getcode()
+    responseFoo = urllib.request.urlopen(serverUrlFoo, context=ctx).getcode()
+    responseBar = urllib.request.urlopen(serverUrlBar, context=ctx).getcode()
     # record time to the log
     logFile.write(strftime("%d/%m/%Y %H:%M:%S", gmtime()) + " - Server One:" + str(responseFoo) + ", Server Two:" + str(responseBar))
     if responseFoo == 200 or responseBar == 200:
