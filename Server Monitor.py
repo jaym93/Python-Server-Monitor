@@ -16,6 +16,7 @@ from email.mime.multipart import MIMEMultipart
 logFile = open('C:\\sniff.log', 'a')        # remember to clean out log files once in a while, it may take up too much space
 errFile = open('C:\\error.log', 'a')
 
+# Below statements set SSL context to CERT_NONE - use if you have self-signed SSL
 ctx = ssl.create_default_context()
 ctx.check_hostname = False
 ctx.verify_mode = ssl.CERT_NONE
@@ -27,6 +28,7 @@ serverUrlBar = 'https://server-two.example.com:port2/barService'
 
 try:
     # get HTTP response, 200 is OK
+    # Can remove context=ctx parameter if you have a CA signed SSL certificate
     responseFoo = urllib.request.urlopen(serverUrlFoo, context=ctx).getcode()
     responseBar = urllib.request.urlopen(serverUrlBar, context=ctx).getcode()
     # record time to the log
